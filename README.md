@@ -29,8 +29,8 @@ Type regex in search bar and click install.
 2. scan SSID from cell phone/tablet 'nca_atm_ap'.
 3. Connect to SSID and enter the password 'NcaAtmPassword'.
 4. Open web browser on cell phone/tablet and navigate to 192.168.4.1 in the address bar.
-5. Enter the steps and set them with button click.
-6. Enter the delay in microsecs between pulses and set them with button click.
+5. Enter the steps and set them with button click on 'submit'.
+6. Enter the delay in microsecs between pulses and set them with button click on 'submit'.
 7. Either click clockwise or anticlockwise to rotate the stepper.
 
 
