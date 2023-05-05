@@ -23,22 +23,22 @@ Regex library installation https://docs.arduino.cc/software/ide-v2/tutorials/ide
 
 Type regex in search bar and click install.
 
-## Usage WebServer over WiFi AP Mode:
+## Usage for WebServer over WiFi AP Mode:
 
-1. Connect microUSB to laptop and power on ESP32 WROOM 32D.
-2. scan SSID from cell phone/tablet 'nca_atm_ap'.
+1. Connect microUSB cable to a laptop/PC and power on ESP32 WROOM 32D chip.
+2. Scan the following SSID from cell phone/tablet 'nca_atm_ap'.
 3. Connect to SSID and enter the password 'NcaAtmPassword'.
-4. Open web browser on cell phone/tablet and navigate to 192.168.4.1 in the address bar.
+4. Open a web browser on a cell phone/tablet and navigate to IP address 192.168.4.1 in the address bar.
 5. Enter the steps and set them with button click on 'submit'.
 6. Enter the delay in microsecs between pulses and set them with button click on 'submit'.
-7. Either click clockwise or anticlockwise to rotate the stepper.
+7. Click on one of the buttons 'Clockwise(CW)' or 'CounterClockwise(CCW)' to rotate the stepper as necessary.
 
 
-## Usage Serial Control:
+## Usage for Serial Control:
 
-baud is set to 115200n1
+Baud is set to 115200n1
 
-port is set to /dev/ttyUSB<x> (Linux) or COM<x> (Windows)
+Port is set to /dev/ttyUSB<x> (Linux) or COM<x> (Windows)
   
  Valid commands are:
 1. 'CW' (clockwise)
