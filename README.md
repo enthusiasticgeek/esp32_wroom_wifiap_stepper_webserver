@@ -1,6 +1,8 @@
 # esp32_wroom_wifiap_stepper_webserver
 This is a repository for controlling stepper e.g. NEMA17 or NEMA23 connected to ESP32 WROOM 32D using a webserver accessed via WiFi AP mode or via serial port interface.
 
+Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
+
 ## Methods:
 
 1. Method 1: Webserver (preferred).
