@@ -1,5 +1,5 @@
 /*
-Pratik M Tambe
+//Copyright (c) 2023 Pratik M Tambe <enthusiasticgeek@gmail.com>
 References:
 https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/
 */
