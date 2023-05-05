@@ -1,6 +1,8 @@
 # esp32_wroom_wifiap_stepper_webserver
 This is a repository for controlling stepper connected to ESP32 WROOM 32D using a webserver accessed via WiFi AP mode or via serial port interface.
 
+## Methods:
+
 1. Method 1: Webserver (preferred)
 2. Method 2: Serial Port interface (microusb serial port)
 3. Method 3: (Optional) Push buttons control (only allows directional control ->  CCW and CW)
@@ -21,7 +23,7 @@ Regex library installation https://docs.arduino.cc/software/ide-v2/tutorials/ide
 
 Type regex in search bar and click install.
 
-Usage WebServer over WiFi AP Mode:
+## Usage WebServer over WiFi AP Mode:
 
 1. Connect microUSB to laptop and power on ESP32 WROOM 32D.
 2. scan SSID from cell phone/tablet 'nca_atm_ap'.
@@ -32,7 +34,7 @@ Usage WebServer over WiFi AP Mode:
 7. Either click clockwise or anticlockwise to rotate the stepper.
 
 
-Usage Serial Control:
+## Usage Serial Control:
 
 baud is set to 115200n1
 
