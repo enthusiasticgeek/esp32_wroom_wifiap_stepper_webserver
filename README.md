@@ -11,21 +11,21 @@ Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
 
 For compiling Arduino IDE, please refer https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
 
+The wiring connections are as follows: https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/ 
+One may replace TB6600 stepper driver with DM542 -> 2 phase stepper driver. A stepper like NEMA17 would be our target.
+
 PUL+,PUL-,DIR+,DIR-,EN+,EN- connections need to match.
 
 Similarly, A+,A-,B+,B-,GND,VDC connections also need to match.
 
 VDC should fall within the specified voltage range per stepper motor specifications. 
 
-The wiring connections are as follows https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/ 
-One may replace TB6600 stepper driver with DM542 -> 2 phase stepper driver. A stepper like NEMA17 would be our target.
+(Optional) Additional direction control and traverse push buttons are gpio 13 and gpio 14. The pushbutton wiring on each gpio will be as follows: https://docs.arduino.cc/built-in-examples/digital/Button
 
-(Optional) Additional direction control and traverse push buttons are gpio 13 and gpio 14. The pushbutton wiring on each gpio will be as follows https://docs.arduino.cc/built-in-examples/digital/Button
-
-Installing esp32 on arduino IDE v2 is as follows
+Installing esp32 on arduino IDE v2 is as follows:
 https://randomnerdtutorials.com/installing-esp32-arduino-ide-2-0/
 
-Regex library installation https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library
+Regex library installation: https://docs.arduino.cc/software/ide-v2/tutorials/ide-v2-installing-a-library
 
 Type regex in search bar and click install.
 
