@@ -21,7 +21,8 @@ Regex library installation https://docs.arduino.cc/software/ide-v2/tutorials/ide
 
 Type regex in search bar and click install.
 
-Usage:
+Usage WebServer over WiFi AP Mode:
+
 1. Connect microUSB to laptop and power on ESP32 WROOM 32D.
 2. scan SSID from cell phone/tablet 'nca_atm_ap'.
 3. Connect to SSID and enter the password 'NcaAtmPassword'.
@@ -30,3 +31,17 @@ Usage:
 6. Enter the delay in microsecs between pulses and set them with button click.
 7. Either click clockwise or anticlockwise to rotate the stepper.
 
+
+Usage Serial Control:
+
+baud is set to 115200n1
+
+port is set to /dev/ttyUSB<x> (Linux) or COM<x> (Windows)
+  
+ Valid commands are:
+1. 'CW' (clockwise)
+2. 'CCW' (counterclockwise)
+3. 'EN=1' (enable)
+4. 'EN=0'(disable)
+5. 'steps=<value>' [default = 1] <----steps to move
+6. 'microsecs=<value>' [default = 50] <----delay between successive pulses (50% duty cycle)
