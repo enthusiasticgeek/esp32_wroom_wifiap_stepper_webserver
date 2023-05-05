@@ -3,7 +3,7 @@ This is a repository for controlling stepper e.g. NEMA17 or NEMA23 connected to 
 
 Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
 
-## Methods:
+## Methods of controlling a stepper motor:
 
 1. Method 1: Webserver (preferred).
 2. Method 2: Serial Port interface (microusb serial port).
