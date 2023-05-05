@@ -1,20 +1,22 @@
 # esp32_wroom_wifiap_stepper_webserver
-This is a repository for controlling stepper connected to ESP32 WROOM 32D using a webserver accessed via WiFi AP mode or via serial port interface.
+This is a repository for controlling stepper e.g. NEMA17 or NEMA23 connected to ESP32 WROOM 32D using a webserver accessed via WiFi AP mode or via serial port interface.
 
 ## Methods:
 
-1. Method 1: Webserver (preferred)
-2. Method 2: Serial Port interface (microusb serial port)
-3. Method 3: (Optional) Push buttons control (only allows directional control ->  CCW and CW)
+1. Method 1: Webserver (preferred).
+2. Method 2: Serial Port interface (microusb serial port).
+3. Method 3: (Optional) Push buttons control (only allows directional control ->  CCW and CW).
 
 For compiling Arduino IDE, please refer https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
 
 PUL+,PUL-,DIR+,DIR-,EN+,EN- connections need to match.
-A+,A-,B+,B-,GND,VDC connections also need to match.
-VDC should fall within the specified range per stepper motor specifications. 
+
+Similarly, A+,A-,B+,B-,GND,VDC connections also need to match.
+
+VDC should fall within the specified voltage range per stepper motor specifications. 
 
 The wiring connections are as follows https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/ 
-One may replace TB6600 stepper driver with DM542  -> 2 phase stepper driver. A stepper like NEMA17 would be our target.
+One may replace TB6600 stepper driver with DM542 -> 2 phase stepper driver. A stepper like NEMA17 would be our target.
 
 (Optional) Additional direction control and traverse push buttons are gpio 13 and gpio 14. The pushbutton wiring on each gpio will be as follows https://docs.arduino.cc/built-in-examples/digital/Button
 
@@ -40,7 +42,7 @@ Type regex in search bar and click install.
 
 Baud is set to 115200n1
 
-Port is set to /dev/ttyUSB<x> (Linux) or COM<x> (Windows)
+Port is set to /dev/ttyUSB\<x\> (Linux) or COM\<x\> (Windows)
   
  Valid commands are:
 1. 'CW' (clockwise)
