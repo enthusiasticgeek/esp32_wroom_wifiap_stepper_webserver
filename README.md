@@ -10,9 +10,11 @@ This is a repository for controlling stepper connected to ESP32 WROOM 32D using 
 For compiling Arduino IDE, please refer https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
 
 PUL+,PUL-,DIR+,DIR-,EN+,EN- connections need to match.
+A+,A-,B+,B-,GND,VDC connections also need to match.
+VDC should fall within the specified range per stepper motor specifications. 
 
 The wiring connections are as follows https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/ 
-One may replace TB6600 stepper driver with DM542  -> 2 phase stepper driver.
+One may replace TB6600 stepper driver with DM542  -> 2 phase stepper driver. A stepper like NEMA17 would be our target.
 
 (Optional) Additional direction control and traverse push buttons are gpio 13 and gpio 14. The pushbutton wiring on each gpio will be as follows https://docs.arduino.cc/built-in-examples/digital/Button
 
