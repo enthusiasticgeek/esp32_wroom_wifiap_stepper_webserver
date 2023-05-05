@@ -45,8 +45,8 @@ Port is set to /dev/ttyUSB<x> (Linux) or COM<x> (Windows)
 2. 'CCW' (counterclockwise)
 3. 'EN=1' (enable)
 4. 'EN=0'(disable)
-5. 'steps=<value>' [default = 1] <----steps to move
-6. 'microsecs=<value>' [default = 50] <----delay between successive pulses (50% duty cycle)
+5. 'steps=\<value\>' [default = 1] <----steps to move
+6. 'microsecs=\<value\>' [default = 50] <----delay between successive pulses (50% duty cycle)
   
 ![alt text](https://github.com/enthusiasticgeek/esp32_wroom_wifiap_stepper_webserver/blob/main/Screenshot_20230503_082242.jpg "ESP32 ARDUINO WEBSERVER WIFI AP")
 
