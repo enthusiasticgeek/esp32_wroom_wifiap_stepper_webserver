@@ -310,7 +310,7 @@ void loop() {
             inData = ""; // Clear recieved buffer
         }
     }
-
+      //TODO (Pratik) Move these to ISR.
       // check if manually someone presses push buttons
       // read the state of the pushbutton value:
       buttonStateCW = digitalRead(buttonPinCW);
