@@ -51,8 +51,8 @@ Port is set to /dev/ttyUSB\<x\> (Linux) or COM\<x\> (Windows)
 2. 'CCW' (counterclockwise)
 3. 'EN=1' (enable)
 4. 'EN=0' (disable)
-5. 'steps=\<value\>' [default = 1] <----steps to traverse/rotate
-6. 'microsecs=\<value\>' [default = 50] <----delay between successive pulses (50% duty cycle)
+5. 'steps=\<value\>' [default = 1] <---- steps to traverse/rotate
+6. 'microsecs=\<value\>' [default = 50] <---- delay between successive pulses (50% duty cycle)
 
 ## !!!IMPORTANT!!! Wiring for DM542 Stepper Driver interfaced with ESP32 WROOM 32D
 
