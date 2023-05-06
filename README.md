@@ -3,7 +3,7 @@ This is a repository for controlling stepper e.g. NEMA17 or NEMA23 connected to 
 
 Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
 
-Note: There are two *.ino files with similar code. A normal version without push buttons ISR and one with push buttons ISR. The user may install whichever they prefer.
+Note: There are two *.ino files with similar code. A normal version without push buttons ISR and one with push buttons ISR. The user may program whichever they prefer of those two.
 
 ## Methods of controlling a stepper motor:
 
