@@ -12,7 +12,7 @@ Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
 For compiling Arduino IDE, please refer https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/
 
 The wiring connections are as follows: https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/ 
-One may replace TB6600 stepper driver with DM542 -> 2 phase stepper driver. A stepper like NEMA17 would be our target.
+One may replace TB6600 stepper driver with DM542 -> 2 phase stepper driver (See an important note on the electronics and the wiring below). A stepper like NEMA17 would be our target.
 
 PUL+,PUL-,DIR+,DIR-,EN+,EN- connections need to match.
 
@@ -64,6 +64,8 @@ In order to interface PUL+,PUL-,DIR+,DIR-,EN+,EN- connections one needs to purch
 
 1. https://www.sparkfun.com/products/12009
 2. https://www.amazon.com/3-3v-5v-logic-level-converter/s?k=3.3v+5v+logic+level+converter
+
+TB6600 (unlike DM542) does not need this 3.3V to 5V TTL converter.
   
 ![alt text](https://github.com/enthusiasticgeek/esp32_wroom_wifiap_stepper_webserver/blob/main/Screenshot_20230503_082242.jpg "ESP32 ARDUINO WEBSERVER WIFI AP")
 
