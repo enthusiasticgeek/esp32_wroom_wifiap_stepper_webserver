@@ -53,6 +53,17 @@ Port is set to /dev/ttyUSB\<x\> (Linux) or COM\<x\> (Windows)
 4. 'EN=0' (disable)
 5. 'steps=\<value\>' [default = 1] <----steps to traverse/rotate
 6. 'microsecs=\<value\>' [default = 50] <----delay between successive pulses (50% duty cycle)
+
+## !!!IMPORTANT!!! Wiring for DM542 Stepper Driver interfaced with ESP32 WROOM 32D
+
+DM542 needs min 4.5VDC control signal voltage. Read the details here: https://www.laskakit.cz/user/related_files/dm542.pdf
+
+ESP32 digital GPIO -> low value -> 0V and high value -> 3.3V. Read the details here: https://deepbluembedded.com/esp32-digital-inputs-outputs-arduino/
+
+In order to interface PUL+,PUL-,DIR+,DIR-,EN+,EN- connections one needs to purchase 3.3V to 5V TTL converter. Some URLs (not exclusive) that I found where one may purchase this are as follows:
+
+1. https://www.sparkfun.com/products/12009
+2. https://www.amazon.com/3-3v-5v-logic-level-converter/s?k=3.3v+5v+logic+level+converter
   
 ![alt text](https://github.com/enthusiasticgeek/esp32_wroom_wifiap_stepper_webserver/blob/main/Screenshot_20230503_082242.jpg "ESP32 ARDUINO WEBSERVER WIFI AP")
 
