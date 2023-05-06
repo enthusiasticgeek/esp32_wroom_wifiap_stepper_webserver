@@ -20,7 +20,7 @@ Similarly, A+,A-,B+,B-,GND,VDC connections also need to match.
 
 VDC should fall within the specified voltage range per stepper motor specifications. 
 
-(Optional) Additional direction control and traverse push buttons are gpio 13 and gpio 14. The pushbutton wiring on each gpio will be as follows: https://docs.arduino.cc/built-in-examples/digital/Button
+(Optional) Additional direction control and traverse push buttons are gpio 13 and gpio 14. The pushbutton wiring on each gpio will be as follows: https://docs.arduino.cc/built-in-examples/digital/Button (connect to 3.3V instead of 5V) or https://randomnerdtutorials.com/esp32-digital-inputs-outputs-arduino/
 
 Installing esp32 on arduino IDE v2 is as follows:
 https://randomnerdtutorials.com/installing-esp32-arduino-ide-2-0/
