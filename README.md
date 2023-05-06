@@ -2,6 +2,7 @@
 This is a repository for controlling stepper e.g. NEMA17 or NEMA23 connected to ESP32 WROOM 32D using a webserver accessed via WiFi AP mode or via serial port interface. Known stepper drivers compatible with this project are TB6600 and DM542. There may also be other stepper drivers but they are untested for this project.
 
 Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
+
 Note: There are two *.ino files with similar code. A normal version without push buttons ISR and one with push buttons ISR. The user may install whichever they prefer.
 
 ## Methods of controlling a stepper motor:
