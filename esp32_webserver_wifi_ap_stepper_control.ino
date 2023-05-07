@@ -74,8 +74,8 @@ void handleRoot() {
   server.send(200, "text/html",
               "<html><head><style>"
               "body {background-color: #f0f0f0;}"
-              "input[type=submit][name=button1] {background-color: yellow;}"
-              "input[type=submit][name=button2] {background-color: yellow;}"
+              "input[type=submit][name=button1] {background-color: lightyellow;}"
+              "input[type=submit][name=button2] {background-color: lightyellow;}"
               "input[type=submit][name=button3] {background-color: lightgreen;}"
               "input[type=submit][name=button4] {background-color: lightblue;}"
               ".center {display: flex; justify-content: center; align-items: center; height: 100vh;}"
