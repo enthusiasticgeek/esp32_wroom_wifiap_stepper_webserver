@@ -62,10 +62,10 @@ DM542 needs min 4.5VDC control signal voltage. Read the details here: https://ww
 
 ESP32 digital GPIO -> low value -> 0V and high value -> 3.3V. Read the details here: https://deepbluembedded.com/esp32-digital-inputs-outputs-arduino/
 
-In order to interface PUL+,PUL-,DIR+,DIR-,EN+,EN- connections one needs to purchase 3.3V to 5V TTL converter. Some URLs (not exclusive) that I found where one may purchase this are as follows:
+![alt text](https://raw.githubusercontent.com/enthusiasticgeek/esp32_wroom_wifiap_stepper_webserver/main/Screenshot_20230514_084318.jpg "wiring")
+Reference:
+https://forums.raspberrypi.com/viewtopic.php?t=260582
 
-1. https://www.sparkfun.com/products/12009
-2. https://www.amazon.com/3-3v-5v-logic-level-converter/s?k=3.3v+5v+logic+level+converter
 
 TB6600 (unlike DM542) does not need this 3.3V to 5V TTL converter.
   
