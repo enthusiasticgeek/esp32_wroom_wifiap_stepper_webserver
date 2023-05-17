@@ -44,7 +44,7 @@ String inData;
 //Clockwise
 void moveCW(){
     digitalWrite(DIR, LOW);
-    digitalWrite(ENA, HIGH);
+    digitalWrite(ENA, LOW);  //TB6600 that I tested needs this LOW. Other drivers may need HIGH
     digitalWrite(PUL, HIGH);
     delayMicroseconds(microsecs);
     digitalWrite(PUL, LOW);
@@ -54,7 +54,7 @@ void moveCW(){
 //Counter Clockwise
 void moveCCW(){
     digitalWrite(DIR, HIGH);
-    digitalWrite(ENA, HIGH);
+    digitalWrite(ENA, LOW);  //TB6600 that I tested needs this LOW. Other drivers may need HIGH
     digitalWrite(PUL, HIGH);
     delayMicroseconds(microsecs);
     digitalWrite(PUL, LOW);
