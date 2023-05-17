@@ -5,6 +5,16 @@ Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
 
 Note: There are two *.ino files with similar code. A normal version without push buttons ISR and one with push buttons ISR. The user may program whichever they prefer of those two.
 
+## Note: TB6600 and NEMA23 stepper motor tested in the following configuration
+
+SW1(OFF), SW2(OFF), SW3(ON), SW4 (OFF), SW5 (OFF), SW6 (OFF). -> 3.5A and 3200 Pulses/Revolution.
+
+PUL-, DIR-, EN- all connect to GND on ESP32.
+
+PUL+ -> GPIO 25 on ESP32, DIR+ -> GPIO 26 on ESP32, EN+ -> GPIO 27 on ESP32.
+
+VCC and GND on TB6600 connected to [12V@10A] VCC on lab power supply and GND on lab power supply respectively. 
+
 ## Methods of controlling a stepper motor:
 
 1. Method 1: Webserver (preferred).
