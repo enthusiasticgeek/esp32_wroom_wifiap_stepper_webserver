@@ -64,7 +64,7 @@ WebServer server(80);
 
 
 //Clockwise
-void moveCW(){
+void moveCCW(){
     digitalWrite(DIR, LOW);
     digitalWrite(ENA, LOW); //TB6600 that I tested needs this LOW. Other drivers may need HIGH
     digitalWrite(PUL, HIGH);
@@ -74,7 +74,7 @@ void moveCW(){
 }
 
 //Counter Clockwise
-void moveCCW(){
+void moveCW(){
     digitalWrite(DIR, HIGH);
     digitalWrite(ENA, LOW); //TB6600 that I tested needs this LOW. Other drivers may need HIGH
     digitalWrite(PUL, HIGH);
