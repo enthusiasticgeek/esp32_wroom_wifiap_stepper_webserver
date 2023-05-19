@@ -110,7 +110,7 @@ void handleRoot() {
               "<form action='/button2'><table>"
               "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs):</h4></th><td><input type='text' name='textbox2' style='font-size:25px;height:50px;width:200px' ></td>"
               "<td><input type='submit' name='button2' value='MICROSECS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
-              "<tr><td><h4 style='font-size:25px;color: green'> microsecs [current value]: " + String(microsecs) + "</h4></td></tr>"
+              "<tr><td><h4 style='font-size:25px;color: green'> Microsecs [current value]: " + String(microsecs) + "</h4></td></tr>"
               "</table></form><br>"
               "<form action='/button3'><table>"
               "<tr><td><input type='submit' name='button3' value='Clockwise (CW)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
