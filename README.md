@@ -79,5 +79,5 @@ https://forums.raspberrypi.com/viewtopic.php?t=260582
 
 TB6600 (unlike DM542) does not need this 3.3V to 5V TTL converter.
   
-![alt text](https://github.com/enthusiasticgeek/esp32_wroom_wifiap_stepper_webserver/blob/main/esp32web.png "ESP32 ARDUINO WEBSERVER WIFI AP")
+![alt text](https://github.com/enthusiasticgeek/esp32_wroom_wifiap_stepper_webserver/blob/main/esp32web1.jpg "ESP32 ARDUINO WEBSERVER WIFI AP")
 
