@@ -25,7 +25,7 @@ const char* password = "NcaAtmPassword";
 #define buttonPinCCW_X 14
 
 //Stepper 2
-//GPIO pins 15 and 16 are for CW and CCW push buttons https://docs.arduino.cc/built-in-examples/digital/Button
+//GPIO pins 4 and 2 are for CW and CCW push buttons https://docs.arduino.cc/built-in-examples/digital/Button
 #define buttonPinCW_Y 4
 #define buttonPinCCW_Y 2
 
