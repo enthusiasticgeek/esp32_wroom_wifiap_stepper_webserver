@@ -179,7 +179,7 @@ void handleRoot() {
                                         "</table></form><br><br><br>"
                                         "<form action='/button4'><table>"
                                         "<tr><td><input type='submit' name='button4' value='CounterClockwise (X)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
-                                        "</table></form><br>"
+                                        "</table></form><br><hr>"
                                         "<form action='/button5'><table>"
                                         "<tr><th><h4 style='font-size:25px;color: black'>The number of steps_Y to traverse:</h4></th><td><input type='text' name='textbox5' style='font-size:25px;height:50px;width:200px' ></td>"
                                         "<td><input type='submit' name='button5' value='STEPS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
