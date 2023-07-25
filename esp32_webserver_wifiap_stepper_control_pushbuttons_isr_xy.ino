@@ -12,6 +12,9 @@ https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/
 const char* ssid = "nca_atm_ap";
 const char* password = "NcaAtmPassword";
 
+//Change this webserver Wi-Fi AP mode IP as desired
+const IPAddress customIP(192, 168, 4, 1);
+
 //Change the below defaults as necessary
 #define DEFAULT_STEPS 1
 #define DEFAULT_MICROSECS 50
@@ -397,6 +400,9 @@ void setup() {
   // Start WiFi in Access Point mode
   WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);
+
+  // Set custom IP address for the AP mode
+  WiFi.softAPConfig(customIP, IPAddress(0, 0, 0, 0), IPAddress(255, 255, 255, 0));
 
   Serial.println("WiFi AP mode started");
   Serial.println(WiFi.softAPIP());
