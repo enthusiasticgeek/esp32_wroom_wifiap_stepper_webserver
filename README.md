@@ -1,9 +1,14 @@
 # esp32_wroom_wifiap_stepper_webserver
+
 This is a repository for controlling stepper e.g. NEMA17 or NEMA23 connected to ESP32 WROOM 32D using a webserver accessed via WiFi AP mode or via serial port interface. Known stepper drivers compatible with this project are TB6600 and DM542. There may also be other stepper drivers but they are currently untested for this project.
 
-Note: ESP32 WROOM microcontroller offers soft WiFi AP mode.
+**Note:** ESP32 WROOM microcontroller offers soft WiFi AP mode.
 
-Note: There are two *.ino files with similar code. A normal version without push buttons ISR and one with push buttons ISR. The user may program whichever they prefer of those two.
+**Note:** There are three *.ino files with similar code. A normal version without push buttons ISR and one with push buttons ISR (seperate code for controlling 1 motor and 2 motors). The user may program whichever they prefer of those three.
+
+#### Update 1: The code now has been updated to control 2 stepper motors independently.
+
+#### Update 2: Wi-Fi AP mode's webserver IP can now be set as desired.
 
 ## Note: TB6600 and NEMA23 stepper motor tested in the following configuration
 
@@ -49,10 +54,12 @@ Type regex in search bar and click install.
 4. Open a web browser on a cell phone/tablet and navigate to IP address 192.168.4.1 in the address bar.
 5. Enter the steps and set them with button click on 'submit'.
 6. Enter the delay in microsecs between pulses and set them with button click on 'submit'.
-7. Click on one of the buttons 'Clockwise(CW)' or 'CounterClockwise(CCW)' to rotate the stepper as necessary.
+7. Click on one of the buttons 'Clockwise(CW)' or 'CounterClockwise(CCW)' to rotate the stepper as necessary (separate for motor 1 and motor 2 for _xy.ino) .
 
 
 ## Usage for Serial Control:
+
+#### Update 1: Append _X or _Y to the following commands if using code ending with suffix _xy.ino. e.g. CW_X or CW_Y instead of CW, microsecs_X or microsecs_Y instead of microsecs, etc.
 
 Baud is set to 115200n1
 
