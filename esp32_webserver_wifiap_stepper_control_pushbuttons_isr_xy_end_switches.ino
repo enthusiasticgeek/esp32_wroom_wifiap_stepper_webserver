@@ -153,6 +153,19 @@ void IRAM_ATTR buttonISREnd_Y() {
 }
 
 
+void resetCounters() {
+  buttonCW_X.numberKeyPresses = 0;
+  buttonCCW_X.numberKeyPresses = 0;
+  buttonCW_Y.numberKeyPresses = 0;
+  buttonCCW_Y.numberKeyPresses = 0;
+  buttonBegin_X.numberKeyPresses = 0;
+  buttonEnd_X.numberKeyPresses = 0;
+  buttonBegin_Y.numberKeyPresses = 0;
+  buttonEnd_Y.numberKeyPresses = 0;
+  Serial.println("All the counters have been reset to 0");
+}
+
+
 WebServer server(80);
 
 //Clockwise
@@ -228,6 +241,7 @@ void handleRoot() {
               "input[type=submit][name=button6] {background-color: lightyellow;}"
               "input[type=submit][name=button7] {background-color: lightgreen;}"
               "input[type=submit][name=button8] {background-color: lightblue;}"
+              "input[type=submit][name=reset] {background-color: lightbrown;}"
               ".center {display: flex; justify-content: center; align-items: center; height: 100vh;}"
               "</style></head><body><h1>Arduino Simple Stepper Controller Web Server</h1>"
               "<form action='/button1'><table>"
@@ -265,6 +279,9 @@ void handleRoot() {
                                         "</table></form><br><br><br>"
                                         "<form action='/button8'><table>"
                                         "<tr><td><input type='submit' name='button8' value='CounterClockwise (Y)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
+                                        "</table></form><br>"
+                                        "<form action='/reset'><table>"
+                                        "<tr><td><input type='submit' name='reset' value='Reset Counters' style='font-size:25px;height:50px;width:300px' ></td></tr>"
                                         "</table></form><br>"
                                         "<div class='center'>"
                                         "<h4>Copyright (c) 2023 Pratik M Tambe <enthusiasticgeek@gmail.com> [Software released under MIT License]</h4>"
@@ -426,6 +443,12 @@ void webbuttonCCW_Y() {
   server.send(302, "text/plain", "");
 }
 
+void handleReset() {
+  resetCounters();
+  server.sendHeader("Location", "/", true);
+  server.send(302, "text/plain", "");
+}
+
 
 //void handlePushButtonInterruptCW() {
 //  pushButtonPressedCW = !digitalRead(pushbuttonPinCW_X); // Toggle pushButtonPressedCW variable
@@ -496,6 +519,8 @@ void setup() {
   server.on("/button6", handleButton4);
   server.on("/button7", webbuttonCW_Y);
   server.on("/button8", webbuttonCCW_Y);
+
+  server.on("/reset", handleReset);
 
   server.begin();
 
