@@ -283,6 +283,18 @@ void handleRoot() {
                                         "<form action='/reset'><table>"
                                         "<tr><td><input type='submit' name='reset' value='Reset Counters' style='font-size:25px;height:50px;width:300px' ></td></tr>"
                                         "</table></form><br>"
+                                        "<form action='/reached_begin_x'><table>"
+                                        "<tr><td><input type='submit' name='reached_begin_x' value='Reached begin X?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/reached_end_x'><table>"
+                                        "<tr><td><input type='submit' name='reached_end_x' value='Reached end X?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/reached_begin_y'><table>"
+                                        "<tr><td><input type='submit' name='reached_begin_y' value='Reached begin Y?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/reached_end_y'><table>"
+                                        "<tr><td><input type='submit' name='reached_end_y' value='Reached end Y?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
                                         "<div class='center'>"
                                         "<h4>Copyright (c) 2023 Pratik M Tambe <enthusiasticgeek@gmail.com> [Software released under MIT License]</h4>"
                                         "</div>"
@@ -449,6 +461,26 @@ void handleReset() {
   server.send(302, "text/plain", "");
 }
 
+//Check if motors X and Y axes reached begin or end position
+void handleReachedBeginX() {
+  String response = ( buttonBegin_X.pressed == true) ? "true" : "false";
+  server.send(200, "text/plain", response);
+}
+
+void handleReachedEndX() {
+  String response = ( buttonEnd_X.pressed == true) ? "true" : "false";
+  server.send(200, "text/plain", response);
+}
+
+void handleReachedBeginY() {
+  String response = ( buttonBegin_Y.pressed == true) ? "true" : "false";
+  server.send(200, "text/plain", response);
+}
+
+void handleReachedEndY() {
+  String response = ( buttonEnd_Y.pressed == true) ? "true" : "false";
+  server.send(200, "text/plain", response);
+}
 
 //void handlePushButtonInterruptCW() {
 //  pushButtonPressedCW = !digitalRead(pushbuttonPinCW_X); // Toggle pushButtonPressedCW variable
@@ -521,6 +553,12 @@ void setup() {
   server.on("/button8", webbuttonCCW_Y);
 
   server.on("/reset", handleReset);
+
+  server.on("/reached_begin_x", handleReachedBeginX);
+  server.on("/reached_end_x", handleReachedEndX);
+  server.on("/reached_begin_y", handleReachedBeginY);
+  server.on("/reached_end_y", handleReachedEndY);
+
 
   server.begin();
 
@@ -716,4 +754,5 @@ void loop() {
   //call the webserver
   server.handleClient();
 }
+
 
