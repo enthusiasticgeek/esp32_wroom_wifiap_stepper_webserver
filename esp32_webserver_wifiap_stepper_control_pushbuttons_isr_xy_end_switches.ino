@@ -153,15 +153,23 @@ void IRAM_ATTR buttonISREnd_Y() {
 }
 
 
-void resetCounters() {
+void resetCountersX() {
   buttonCW_X.numberKeyPresses = 0;
   buttonCCW_X.numberKeyPresses = 0;
-  buttonCW_Y.numberKeyPresses = 0;
-  buttonCCW_Y.numberKeyPresses = 0;
   buttonBegin_X.numberKeyPresses = 0;
   buttonEnd_X.numberKeyPresses = 0;
+}
+
+void resetCountersY() {
+  buttonCW_Y.numberKeyPresses = 0;
+  buttonCCW_Y.numberKeyPresses = 0;
   buttonBegin_Y.numberKeyPresses = 0;
   buttonEnd_Y.numberKeyPresses = 0;
+}
+
+void resetCounters() {
+  resetCountersX();
+  resetCountersY();
   Serial.println("All the counters have been reset to 0");
 }
 
@@ -241,7 +249,7 @@ void handleRoot() {
               "input[type=submit][name=button6] {background-color: lightyellow;}"
               "input[type=submit][name=button7] {background-color: lightgreen;}"
               "input[type=submit][name=button8] {background-color: lightblue;}"
-              "input[type=submit][name=reset] {background-color: lightbrown;}"
+              "input[type=submit][name=reset] {background-color: lightgrey;}"
               ".center {display: flex; justify-content: center; align-items: center; height: 100vh;}"
               "</style></head><body><h1>Arduino Simple Stepper Controller Web Server</h1>"
               "<form action='/button1'><table>"
@@ -263,13 +271,13 @@ void handleRoot() {
                                         "<tr><td><input type='submit' name='button4' value='CounterClockwise (X)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
                                         "</table></form><br><hr>"
                                         "<form action='/button5'><table>"
-                                        "<tr><th><h4 style='font-size:25px;color: black'>The number of steps_Y to traverse:</h4></th><td><input type='text' name='textbox5' style='font-size:25px;height:50px;width:200px' ></td>"
+                                        "<tr><th><h4 style='font-size:25px;color: black'>The number of steps_Y to traverse:</h4></th><td><input type='text' name='textbox3' style='font-size:25px;height:50px;width:200px' ></td>"
                                         "<td><input type='submit' name='button5' value='STEPS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
                                         "<tr><td><h4 style='font-size:25px;color: green'> Steps [current value]: "
                 + String(steps_Y) + "</h4></td></tr>"
                                     "</table></form><br>"
                                     "<form action='/button6'><table>"
-                                    "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs_Y):</h4></th><td><input type='text' name='textbox6' style='font-size:25px;height:50px;width:200px' ></td>"
+                                    "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs_Y):</h4></th><td><input type='text' name='textbox4' style='font-size:25px;height:50px;width:200px' ></td>"
                                     "<td><input type='submit' name='button6' value='MICROSECS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
                                     "<tr><td><h4 style='font-size:25px;color: green'> Microsecs [current value]: "
                 + String(microsecs_Y) + "</h4></td></tr>"
@@ -281,8 +289,8 @@ void handleRoot() {
                                         "<tr><td><input type='submit' name='button8' value='CounterClockwise (Y)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
                                         "</table></form><br><hr>"
                                         "<form action='/reset'><table>"
-                                        "<tr><td><input type='submit' name='reset' value='Reset Counters' style='font-size:25px;height:50px;width:300px' ></td></tr>"
-                                        "</table></form><br><hr>"
+                                        "<tr><td><input type='submit' name='reset' value='Reset Counters' style='font-size:25px;height:200px;width:300px' ></td></tr>"
+                                        "</table></form><br><hr><br>"
                                         "<form action='/reached_begin_x'><table>"
                                         "<tr><td><input type='submit' name='reached_begin_x' value='Reached begin X?' style='display:none;' ></td></tr>"
                                         "</table></form>"
@@ -294,7 +302,7 @@ void handleRoot() {
                                         "</table></form>"
                                         "<form action='/reached_end_y'><table>"
                                         "<tr><td><input type='submit' name='reached_end_y' value='Reached end Y?' style='display:none;' ></td></tr>"
-                                        "</table></form><br><hr>"
+                                        "</table></form><br>"
                                         "<form action='/button_begin_presses_x'><table>"
                                         "<tr><td><input type='submit' name='button_begin_presses_x' value='Presses begin X?' style='display:none;' ></td></tr>"
                                         "</table></form>"
@@ -306,7 +314,19 @@ void handleRoot() {
                                         "</table></form>"
                                         "<form action='/button_end_presses_y'><table>"
                                         "<tr><td><input type='submit' name='button_end_presses_y' value='Presses end Y?' style='display:none;' ></td></tr>"
-                                        "</table></form><br><hr>"
+                                        "</table></form><br>"
+                                        "<form action='/button_cw_presses_x'><table>"
+                                        "<tr><td><input type='submit' name='button_cw_presses_x' value='Presses CW X?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/button_ccw_presses_x'><table>"
+                                        "<tr><td><input type='submit' name='button_ccw_presses_x' value='Presses CCW X?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/button_cw_presses_y'><table>"
+                                        "<tr><td><input type='submit' name='button_cw_presses_y' value='Presses CW Y?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/button_ccw_presses_y'><table>"
+                                        "<tr><td><input type='submit' name='button_ccw_presses_y' value='Presses CCW Y?' style='display:none;' ></td></tr>"
+                                        "</table></form><br>"
                                         "<div class='center'>"
                                         "<h4>Copyright (c) 2023 Pratik M Tambe <enthusiasticgeek@gmail.com> [Software released under MIT License]</h4>"
                                         "</div>"
@@ -355,16 +375,16 @@ void handleButton2() {
 void handleButton3() {
   String textbox3_value = server.arg("textbox3");
   if (isInteger(textbox3_value)) {
-    microsecs_Y = textbox3_value.toInt();
-    if (microsecs_Y == 0) {
-      microsecs_Y = DEFAULT_MICROSECS;  //change to default
+    steps_Y = textbox3_value.toInt();
+    if (steps_Y == 0) {
+      steps_Y = DEFAULT_STEPS;  //change to default
     }
-    //TODO(Pratik) - restrict the microsecs_Y
+    //TODO(Pratik) - restrict the steps_X
     //server.send(200, "text/plain", "Button 3 was pressed with value: " + String(value));
-    Serial.println("\nButton 3 (delay microsecs_Y) was pressed with value: " + String(microsecs_Y));
+    Serial.println("\nButton 3 (steps_Y) was pressed with value: " + String(steps_Y));
   } else {
     //server.send(200, "text/plain", "Invalid input for text box 3");
-    Serial.println("\nInvalid input for text box 3 (delay microsecs_Y): ");
+    Serial.println("\nInvalid input for text box 3 (steps_Y): ");
   }
   //handleRoot();
   server.sendHeader("Location", "/", true);
@@ -393,6 +413,7 @@ void handleButton4() {
 void webbuttonCW_X() {
   for (int i = 0; i < steps_X; i++) {
     moveCW_X();
+    buttonCW_X.numberKeyPresses++;
     Serial.println(String(i));
   }
   Serial.println("[Motor X] Push button CW is pressed and CW move is complete.");
@@ -412,6 +433,7 @@ void webbuttonCW_X() {
 void webbuttonCCW_X() {
   for (int i = 0; i < steps_X; i++) {
     moveCCW_X();
+    buttonCCW_X.numberKeyPresses++;
     Serial.println(String(i));
   }
   Serial.println("[Motor X] Push button CCW is pressed and CCW move is complete.");
@@ -432,6 +454,7 @@ void webbuttonCCW_X() {
 void webbuttonCW_Y() {
   for (int i = 0; i < steps_Y; i++) {
     moveCW_Y();
+    buttonCW_Y.numberKeyPresses++;
     Serial.println(String(i));
   }
   Serial.println("[Motor Y] Push button CW is pressed and CW move is complete.");
@@ -451,6 +474,7 @@ void webbuttonCW_Y() {
 void webbuttonCCW_Y() {
   for (int i = 0; i < steps_Y; i++) {
     moveCCW_Y();
+    buttonCCW_Y.numberKeyPresses++;
     Serial.println(String(i));
   }
   Serial.println("[Motor Y] Push button CCW is pressed and CCW move is complete.");
@@ -502,6 +526,7 @@ void handleReachedEndY() {
 //  pushButtonPressedCCW = !digitalRead(pushbuttonPinCCW_X); // Toggle pushButtonPressedCCW variable
 //}
 
+// Begin/End switches - X and Y axes number of presses
 
 void handleButtonBeginPressesX() {
   String response = String(buttonBegin_X.numberKeyPresses);
@@ -520,6 +545,28 @@ void handleButtonBeginPressesY() {
 
 void handleButtonEndPressesY() {
   String response = String(buttonEnd_Y.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+// CW/CCW - X and Y axes number of presses
+
+void handleButtonCWPressesX() {
+  String response = String(buttonCW_X.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+void handleButtonCCWPressesX() {
+  String response = String(buttonCCW_X.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+void handleButtonCWPressesY() {
+  String response = String(buttonCW_Y.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+void handleButtonCCWPressesY() {
+  String response = String(buttonCCW_Y.numberKeyPresses);
   server.send(200, "text/plain", response);
 }
 
@@ -594,6 +641,11 @@ void setup() {
   server.on("/button_end_presses_x", handleButtonEndPressesX);
   server.on("/button_begin_presses_y", handleButtonBeginPressesY);
   server.on("/button_end_presses_y", handleButtonEndPressesY);
+
+  server.on("/button_cw_presses_x", handleButtonCWPressesX);
+  server.on("/button_ccw_presses_x", handleButtonCCWPressesX);
+  server.on("/button_cw_presses_y", handleButtonCWPressesY);
+  server.on("/button_ccw_presses_y", handleButtonCCWPressesY);
 
   server.begin();
 
@@ -693,10 +745,10 @@ void loop() {
         //int speed = inData.substring(0, ind1+6);
         Serial.println("steps_X\n");
       } else if ((inData == "en_y=1\r") || (inData == "EN_Y=1\r")) {
-        Serial.println("Motor X enabled\n");
+        Serial.println("Motor Y enabled\n");
         digitalWrite(ENA_Y, HIGH);
       } else if ((inData == "en_y=0\r") || (inData == "EN_Y=0\r")) {
-        Serial.println("Motor X disabled\n");
+        Serial.println("Motor Y disabled\n");
         digitalWrite(ENA_Y, LOW);
       } else if ((inData.indexOf("steps_Y:") >= 0)) {
         //int ind1 = inData.indexOf('steps_Y');  //finds location of first ,
@@ -789,6 +841,4 @@ void loop() {
   //call the webserver
   server.handleClient();
 }
-
-
 
