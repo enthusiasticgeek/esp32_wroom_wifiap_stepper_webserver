@@ -279,10 +279,10 @@ void handleRoot() {
                                         "</table></form><br><br><br>"
                                         "<form action='/button8'><table>"
                                         "<tr><td><input type='submit' name='button8' value='CounterClockwise (Y)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
-                                        "</table></form><br>"
+                                        "</table></form><br><hr>"
                                         "<form action='/reset'><table>"
                                         "<tr><td><input type='submit' name='reset' value='Reset Counters' style='font-size:25px;height:50px;width:300px' ></td></tr>"
-                                        "</table></form><br>"
+                                        "</table></form><br><hr>"
                                         "<form action='/reached_begin_x'><table>"
                                         "<tr><td><input type='submit' name='reached_begin_x' value='Reached begin X?' style='display:none;' ></td></tr>"
                                         "</table></form>"
@@ -294,7 +294,19 @@ void handleRoot() {
                                         "</table></form>"
                                         "<form action='/reached_end_y'><table>"
                                         "<tr><td><input type='submit' name='reached_end_y' value='Reached end Y?' style='display:none;' ></td></tr>"
+                                        "</table></form><br><hr>"
+                                        "<form action='/button_begin_presses_x'><table>"
+                                        "<tr><td><input type='submit' name='button_begin_presses_x' value='Presses begin X?' style='display:none;' ></td></tr>"
                                         "</table></form>"
+                                        "<form action='/button_end_presses_x'><table>"
+                                        "<tr><td><input type='submit' name='button_end_presses_x' value='Presses end X?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/button_begin_presses_y'><table>"
+                                        "<tr><td><input type='submit' name='button_begin_presses_y' value='Presses begin Y?' style='display:none;' ></td></tr>"
+                                        "</table></form>"
+                                        "<form action='/button_end_presses_y'><table>"
+                                        "<tr><td><input type='submit' name='button_end_presses_y' value='Presses end Y?' style='display:none;' ></td></tr>"
+                                        "</table></form><br><hr>"
                                         "<div class='center'>"
                                         "<h4>Copyright (c) 2023 Pratik M Tambe <enthusiasticgeek@gmail.com> [Software released under MIT License]</h4>"
                                         "</div>"
@@ -491,6 +503,25 @@ void handleReachedEndY() {
 //}
 
 
+void handleButtonBeginPressesX() {
+  String response = String(buttonBegin_X.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+void handleButtonEndPressesX() {
+  String response = String(buttonEnd_X.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+void handleButtonBeginPressesY() {
+  String response = String(buttonBegin_Y.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
+
+void handleButtonEndPressesY() {
+  String response = String(buttonEnd_Y.numberKeyPresses);
+  server.send(200, "text/plain", response);
+}
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -559,6 +590,10 @@ void setup() {
   server.on("/reached_begin_y", handleReachedBeginY);
   server.on("/reached_end_y", handleReachedEndY);
 
+  server.on("/button_begin_presses_x", handleButtonBeginPressesX);
+  server.on("/button_end_presses_x", handleButtonEndPressesX);
+  server.on("/button_begin_presses_y", handleButtonBeginPressesY);
+  server.on("/button_end_presses_y", handleButtonEndPressesY);
 
   server.begin();
 
@@ -754,5 +789,6 @@ void loop() {
   //call the webserver
   server.handleClient();
 }
+
 
 
