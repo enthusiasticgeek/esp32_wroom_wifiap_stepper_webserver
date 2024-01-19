@@ -1,5 +1,6 @@
 /*
-Pratik M Tambe
+Author: Pratik M Tambe <enthusiasticgeek@gmail.com>
+Date: Jan 20, 2024
 References:
 https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/
 */
@@ -8,6 +9,7 @@ https://www.makerguides.com/esp32-and-tb6600-stepper-motor-driver/
 #include <Regexp.h>
 #include <WiFi.h>
 #include <WebServer.h>
+#include <Arduino.h>
 
 const char* ssid = "nca_atm_ap";
 const char* password = "NcaAtmPassword";
@@ -52,35 +54,35 @@ int PUL_X = 25;  // Define PULSE pin for X-axis stepper
 int DIR_X = 26;  // Define DIRECTION pin for X-axis stepper
 int ENA_X = 27;  // Define ENABLE pin for X-axis stepper
 
-int microsecs_X = DEFAULT_MICROSECS;
-int steps_X = DEFAULT_STEPS;
+uint32_t microsecs_X = DEFAULT_MICROSECS;
+uint32_t steps_X = DEFAULT_STEPS;
 
 // Initialize variables for Y-axis stepper motor
 int PUL_Y = 23;  // Define PULSE pin for Y-axis stepper
 int DIR_Y = 22;  // Define DIRECTION pin for Y-axis stepper
 int ENA_Y = 21;  // Define ENABLE pin for Y-axis stepper
 
-int microsecs_Y = DEFAULT_MICROSECS;
-int steps_Y = DEFAULT_STEPS;
+uint32_t microsecs_Y = DEFAULT_MICROSECS;
+uint32_t steps_Y = DEFAULT_STEPS;
 
 
 // variables will change:
-int buttonStateCW_X = 0;  // variable for reading the pushbutton status
+//int buttonStateCW_X = 0;  // variable for reading the pushbutton status
 // variables will change:
-int buttonStateCCW_X = 0;  // variable for reading the pushbutton status
+//int buttonStateCCW_X = 0;  // variable for reading the pushbutton status
 
 
 // variables will change:
-int buttonStateCW_Y = 0;  // variable for reading the pushbutton status
+//int buttonStateCW_Y = 0;  // variable for reading the pushbutton status
 // variables will change:
-int buttonStateCCW_Y = 0;  // variable for reading the pushbutton status
+//int buttonStateCCW_Y = 0;  // variable for reading the pushbutton status
 
 // Buffer to store incoming commands from serial port
 String inData;
 
 struct Button {
   const uint8_t PIN;
-  uint32_t numberKeyPresses;
+  uint64_t numberKeyPresses;
   volatile bool pressed;
 };
 
@@ -116,14 +118,14 @@ void IRAM_ATTR buttonISRCCW_Y() {
 //Buttons for optical encoder or mechanical switches
 
 // variables will change:
-int buttonStateBegin_X = 0;  // variable for reading the pushbutton status
+//int buttonStateBegin_X = 0;  // variable for reading the pushbutton status
 // variables will change:
-int buttonStateEnd_X = 0;  // variable for reading the pushbutton status
+//int buttonStateEnd_X = 0;  // variable for reading the pushbutton status
 
 // variables will change:
-int buttonStateBegin_Y = 0;  // variable for reading the pushbutton status
+//int buttonStateBegin_Y = 0;  // variable for reading the pushbutton status
 // variables will change:
-int buttonStateEnd_Y = 0;  // variable for reading the pushbutton status
+//int buttonStateEnd_Y = 0;  // variable for reading the pushbutton status
 
 Button buttonBegin_X = { buttonPinBegin_X, 0, false };    //X begin
 Button buttonEnd_X = { buttonPinEnd_X, 0, false };  //X end
