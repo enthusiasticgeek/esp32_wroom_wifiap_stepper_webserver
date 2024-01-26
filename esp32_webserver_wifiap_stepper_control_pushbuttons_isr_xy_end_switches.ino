@@ -18,14 +18,15 @@ const char* password = "NcaAtmPassword";
 const IPAddress customIP(192, 168, 4, 1);
 
 //Change the below defaults as necessary
-#define DEFAULT_STEPS 1
+#define DEFAULT_STEPS 5
 #define DEFAULT_MICROSECS 50
 
 //Initialize variables
 #define BAUD_RATE 115200
+
 //Stepper 1
-//GPIO pins 13 and 14 are for CW and CCW push buttons https://docs.arduino.cc/built-in-examples/digital/Button
-#define buttonPinCW_X 13
+//GPIO pins 12 and 14 are for CW and CCW push buttons https://docs.arduino.cc/built-in-examples/digital/Button
+#define buttonPinCW_X 12
 #define buttonPinCCW_X 14
 
 //Stepper 2
@@ -33,16 +34,14 @@ const IPAddress customIP(192, 168, 4, 1);
 #define buttonPinCW_Y 4
 #define buttonPinCCW_Y 2
 
-
 //end switches (e.g. to stop the motor run when either mechanical or optical sensors detect the end of run e.g. on worm gear drive)
 //X-axis
-#define buttonPinBegin_X 36
-#define buttonPinEnd_X 39
+#define buttonPinBegin_X 15
+#define buttonPinEnd_X 0
 
 //Y-axis
-#define buttonPinBegin_Y 32
-#define buttonPinEnd_Y  33
-
+#define buttonPinBegin_Y 18
+#define buttonPinEnd_Y  19
 
 //const int pushbuttonPinCW_X = 2;
 //volatile bool pushButtonPressedCW = false;
@@ -50,27 +49,27 @@ const IPAddress customIP(192, 168, 4, 1);
 //const int pushbuttonPinCCW_X = 3;
 //volatile bool pushButtonPressedCCW = false;
 
-int PUL_X = 25;  // Define PULSE pin for X-axis stepper
-int DIR_X = 26;  // Define DIRECTION pin for X-axis stepper
-int ENA_X = 27;  // Define ENABLE pin for X-axis stepper
+const int PUL_X = 25;  // Define PULSE pin for X-axis stepper
+const int DIR_X = 26;  // Define DIRECTION pin for X-axis stepper
+const int ENA_X = 27;  // Define ENABLE pin for X-axis stepper
 
 uint32_t microsecs_X = DEFAULT_MICROSECS;
 uint32_t steps_X = DEFAULT_STEPS;
 
 // Initialize variables for Y-axis stepper motor
-int PUL_Y = 23;  // Define PULSE pin for Y-axis stepper
-int DIR_Y = 22;  // Define DIRECTION pin for Y-axis stepper
-int ENA_Y = 21;  // Define ENABLE pin for Y-axis stepper
+const int PUL_Y = 23;  // Define PULSE pin for Y-axis stepper
+const int DIR_Y = 22;  // Define DIRECTION pin for Y-axis stepper
+const int ENA_Y = 21;  // Define ENABLE pin for Y-axis stepper
 
 uint32_t microsecs_Y = DEFAULT_MICROSECS;
 uint32_t steps_Y = DEFAULT_STEPS;
 
+//TriggeredButtons flag for limit switches
 
 // variables will change:
 //int buttonStateCW_X = 0;  // variable for reading the pushbutton status
 // variables will change:
 //int buttonStateCCW_X = 0;  // variable for reading the pushbutton status
-
 
 // variables will change:
 //int buttonStateCW_Y = 0;  // variable for reading the pushbutton status
@@ -95,22 +94,26 @@ Button buttonCCW_Y = { buttonPinCCW_Y, 0, false };  //counterclockwise
 void IRAM_ATTR buttonISRCW_X() {
   buttonCW_X.numberKeyPresses++;
   buttonCW_X.pressed = true;
+  //Serial.println("Pressed CW X!");
 }
 
 void IRAM_ATTR buttonISRCCW_X() {
   buttonCCW_X.numberKeyPresses++;
   buttonCCW_X.pressed = true;
+  //Serial.println("Pressed CCW X!");
 }
 
 
 void IRAM_ATTR buttonISRCW_Y() {
   buttonCW_Y.numberKeyPresses++;
   buttonCW_Y.pressed = true;
+  //Serial.println("Pressed CW Y!");
 }
 
 void IRAM_ATTR buttonISRCCW_Y() {
   buttonCCW_Y.numberKeyPresses++;
   buttonCCW_Y.pressed = true;
+  //Serial.println("Pressed CCW Y!");
 }
 
 
@@ -137,21 +140,25 @@ Button buttonEnd_Y = { buttonPinEnd_Y, 0, false };  //X end
 void IRAM_ATTR buttonISRBegin_X() {
   buttonBegin_X.numberKeyPresses++;
   buttonBegin_X.pressed = true;
+  //Serial.println("Reached Begin X!");
 }
 
 void IRAM_ATTR buttonISREnd_X() {
   buttonEnd_X.numberKeyPresses++;
   buttonEnd_X.pressed = true;
+  //Serial.println("Reached End X!");
 }
 
 void IRAM_ATTR buttonISRBegin_Y() {
   buttonBegin_Y.numberKeyPresses++;
   buttonBegin_Y.pressed = true;
+  //Serial.println("Reached Begin Y!");
 }
 
 void IRAM_ATTR buttonISREnd_Y() {
   buttonEnd_Y.numberKeyPresses++;
   buttonEnd_Y.pressed = true;
+  //Serial.println("Reached End Y!");
 }
 
 
@@ -489,7 +496,7 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC0</td>"
               "    <td class ='darkgreen'>GIOP36</td>"
               "    <td class ='pin1'>3</td>"
-              "    <td class ='pin1'>BEGIN X</td>"
+              "    <td class ='pin1'></td>"
               "    <td class ='pin1'>DIR Y</td>"
               "    <td class='pin1'>36</td>"
               "    <td class ='darkgreen'>GIOP22</td>"
@@ -501,7 +508,7 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC3</td>"
               "    <td class ='darkgreen'>GIOP39</td>"
               "    <td class ='pin1'>4</td>"
-              "    <td class ='pin1'>END X</td>"
+              "    <td class ='pin1'></td>"
               "    <td class ='pin1'></td>"
               "    <td class='pin1'>35</td>"
               "    <td class ='darkgreen'>GIOP1</td>"
@@ -537,7 +544,7 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC4</td>"
               "    <td class ='darkgreen'>GIOP32</td>"
               "    <td class ='pin1'>7</td>"
-              "    <td class ='pin1'>BEGIN Y</td>"
+              "    <td class ='pin1'></td>"
               "    <td class ='pin1'></td>"
               "    <td class='pin1'>32</td>"
               "    <td class ='black'>GND</td>"
@@ -549,8 +556,8 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC5</td>"
               "    <td class ='darkgreen'>GIOP33</td>"
               "    <td class ='pin1'>8</td>"
-              "    <td class ='pin1'>END Y</td>"
               "    <td class ='pin1'></td>"
+              "    <td class ='pin1'>BTN END Y</td>"
               "    <td class='pin1'>31</td>"
               "    <td class ='darkgreen'>GIOP19</td>"
               "    <td class ='chocolate'>VSPI MISO</td>"
@@ -562,7 +569,7 @@ void handleGPIO() {
               "    <td class ='darkgreen'>GIOP25</td>"
               "    <td class ='pin1'>9</td>"
               "    <td class ='pin1'>PUL X</td>"
-              "    <td class ='pin1'></td>"
+              "    <td class ='pin1'>BTN BEGIN Y</td>"
               "    <td class='pin1'>30</td>"
               "    <td class ='darkgreen'>GIOP18</td>"
               "    <td class ='chocolate'>VSPI SCK</td>"
@@ -585,7 +592,7 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC17</td>"
               "    <td class ='darkgreen'>GIOP27</td>"
               "    <td class ='pin1'>11</td>"
-              "    <td class ='pin1'> ENA X</td>"
+              "    <td class ='pin1'>ENA X</td>"
               "    <td class ='pin1'></td>"
               "    <td class='pin1'>28</td>"
               "    <td class ='darkgreen'>GIOP17</td>"
@@ -609,7 +616,7 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC15</td>"
               "    <td class ='darkgreen'>GIOP12</td>"
               "    <td class ='pin1'>13</td>"
-              "    <td class ='pin1'></td>"
+              "    <td class ='pin1'>BTN CW X</td>"
               "    <td class ='pin1'>BTN CW Y</td>"
               "    <td class='pin1'>26</td>"
               "    <td class ='darkgreen'>GIOP4</td>"
@@ -622,7 +629,7 @@ void handleGPIO() {
               "    <td class ='black'>GND</td>"
               "    <td class ='pin1'>14</td>"
               "    <td class ='pin1'></td>"
-              "    <td class ='pin1'></td>"
+              "    <td class ='pin1'>BTN END X</td>"
               "    <td class='pin1'>25</td>"
               "    <td class ='darkgreen'>GIOP0</td>"
               "    <td class ='limegreen'>ADC11</td>"
@@ -633,7 +640,7 @@ void handleGPIO() {
               "    <td class ='limegreen'>ADC14</td>"
               "    <td class ='darkgreen'>GIOP13</td>"
               "    <td class ='pin1'>15</td>"
-              "    <td class ='pin1'>BTN CW X</td>"
+              "    <td class ='pin1'></td>"
               "    <td class ='pin1'>BTN CCW Y</td>"
               "    <td class='pin1'>24</td>"
               "    <td class ='darkgreen'>GIOP2</td>"
@@ -646,7 +653,7 @@ void handleGPIO() {
               "    <td class ='darkgreen'>GIOP9</td>"
               "    <td class ='pin1'>16</td>"
               "    <td class ='pin1'></td>"
-              "    <td class ='pin1'></td>"
+              "    <td class ='pin1'>BTN BEGIN X</td>"
               "    <td class='pin1'>23</td>"
               "    <td class ='darkgreen'>GIOP15</td>"
               "    <td class ='limegreen'>ADC13</td>"
@@ -942,17 +949,21 @@ void handleButtonCCWPressesY() {
 
 // the setup function runs once when you press reset or power the board
 void setup() {
+  
   Serial.begin(BAUD_RATE);
+
   pinMode(PUL_X, OUTPUT);
   pinMode(DIR_X, OUTPUT);
   pinMode(ENA_X, OUTPUT);
 
   // initialize the pushbutton pins as an input:
   pinMode(buttonCW_X.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonCW_X.PIN, buttonISRCW_X, FALLING);
+  //attachInterrupt(buttonCW_X.PIN, buttonISRCW_X, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonCW_X.PIN), buttonISRCW_X, FALLING);
 
   pinMode(buttonCCW_X.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonCCW_X.PIN, buttonISRCCW_X, FALLING);
+  //attachInterrupt(buttonCCW_X.PIN, buttonISRCCW_X, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonCCW_X.PIN), buttonISRCCW_X, FALLING);
 
   pinMode(PUL_Y, OUTPUT);
   pinMode(DIR_Y, OUTPUT);
@@ -960,23 +971,29 @@ void setup() {
 
   // initialize the pushbutton pins as an input:
   pinMode(buttonCW_Y.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonCW_Y.PIN, buttonISRCW_Y, FALLING);
+  //attachInterrupt(buttonCW_Y.PIN, buttonISRCW_Y, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonCW_Y.PIN), buttonISRCW_Y, FALLING);
 
   pinMode(buttonCCW_Y.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonCCW_Y.PIN, buttonISRCCW_Y, FALLING);
+  //attachInterrupt(buttonCCW_Y.PIN, buttonISRCCW_Y, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonCCW_Y.PIN), buttonISRCCW_Y, FALLING);
 
   // initialize end switches
   pinMode(buttonBegin_X.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonBegin_X.PIN, buttonISRBegin_X, FALLING);
+  //attachInterrupt(buttonBegin_X.PIN, buttonISRBegin_X, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonBegin_X.PIN), buttonISRBegin_X, FALLING);
 
   pinMode(buttonEnd_X.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonEnd_X.PIN, buttonISREnd_X, FALLING);
+  //attachInterrupt(buttonEnd_X.PIN, buttonISREnd_X, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonEnd_X.PIN), buttonISREnd_X, FALLING);
 
   pinMode(buttonBegin_Y.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonBegin_Y.PIN, buttonISRBegin_Y, FALLING);
+  //attachInterrupt(buttonBegin_Y.PIN, buttonISRBegin_Y, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonBegin_Y.PIN), buttonISRBegin_Y, FALLING);
 
   pinMode(buttonEnd_Y.PIN, INPUT_PULLUP);
-  attachInterrupt(buttonEnd_Y.PIN, buttonISREnd_Y, FALLING);
+  //attachInterrupt(buttonEnd_Y.PIN, buttonISREnd_Y, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonEnd_Y.PIN), buttonISREnd_Y, FALLING);
 
   // Start WiFi in Access Point mode
   WiFi.mode(WIFI_AP);
@@ -1143,34 +1160,42 @@ void loop() {
     buttonCW_X.pressed = false;
     buttonCCW_X.pressed = false;
 
-  } else if (buttonCW_X.pressed) {
+  //} else if (buttonCW_X.pressed) {
+  } else if (digitalRead(buttonCW_X.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonCW_X.numberKeyPresses);
     // move CW:
     Serial.println("Motor will turn clockwise\n");
     moveCW_X();
+    delay(500); //Delay debounce
     buttonCW_X.pressed = false;
-  } else if (buttonCCW_X.pressed) {
+  //} else if (buttonCCW_X.pressed) {
+  } else if (digitalRead(buttonCCW_X.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonCCW_X.numberKeyPresses);
     // move CCW:
     Serial.println("Motor will turn counterclockwise\n");
     moveCCW_X();
+    delay(500); //Delay debounce
     buttonCCW_X.pressed = false;
   }
   if ((buttonCW_Y.pressed) && (buttonCCW_Y.pressed)) {
     Serial.printf("CCW and CW push buttons should not be pressed simultaneously. Ignoring the commands!\n");
     buttonCW_Y.pressed = false;
     buttonCCW_Y.pressed = false;
-  } else if (buttonCW_Y.pressed) {
+  //} else if (buttonCW_Y.pressed) {
+  } else if (digitalRead(buttonCW_Y.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonCW_Y.numberKeyPresses);
     // move CW:
     Serial.println("Motor will turn clockwise\n");
     moveCW_Y();
+    delay(500); //Delay debounce
     buttonCW_Y.pressed = false;
-  } else if (buttonCCW_Y.pressed) {
+  //} else if (buttonCCW_Y.pressed) {
+  } else if (digitalRead(buttonCCW_Y.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonCCW_Y.numberKeyPresses);
     // move CCW:
     Serial.println("Motor will turn counterclockwise\n");
     moveCCW_Y();
+    delay(500); //Delay debounce
     buttonCCW_Y.pressed = false;
   }
 
@@ -1178,17 +1203,21 @@ void loop() {
     Serial.printf("Begin and End push buttons should not be pressed simultaneously. Ignoring the commands!\n");
     buttonBegin_X.pressed = false;
     buttonEnd_X.pressed = false;
-  } else if (buttonBegin_X.pressed) {
+  //} else if (buttonBegin_X.pressed) {
+  } else if (digitalRead(buttonBegin_X.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonBegin_X.numberKeyPresses);
     // reached starting point
     Serial.println("Motor X reached starting point\n");
     //some_buttonBegin_X();
+    delay(500); //Delay debounce
     buttonBegin_X.pressed = false;
-  } else if (buttonEnd_X.pressed) {
+  //} else if (buttonEnd_X.pressed) {
+  } else if (digitalRead(buttonEnd_X.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonEnd_X.numberKeyPresses);
     // reached ending point
     Serial.println("Motor X reached ending point\n");
     //some_buttonEnd_X();
+    delay(500); //Delay debounce
     buttonEnd_X.pressed = false;
   }
 
@@ -1196,22 +1225,24 @@ void loop() {
     Serial.printf("Begin and End push buttons should not be pressed simultaneously. Ignoring the commands!\n");
     buttonBegin_Y.pressed = false;
     buttonEnd_Y.pressed = false;
-  } else if (buttonBegin_Y.pressed) {
+  //} else if (buttonBegin_Y.pressed) {
+  } else if (digitalRead(buttonBegin_Y.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonBegin_Y.numberKeyPresses);
     // reached starting point
     Serial.println("Motor Y reached starting point\n");
     //some_buttonBegin_Y();
+    delay(500); //Delay debounce
     buttonBegin_Y.pressed = false;
-  } else if (buttonEnd_Y.pressed) {
+  //} else if (buttonEnd_Y.pressed) {
+  } else if (digitalRead(buttonEnd_Y.PIN)==LOW) {
     Serial.printf("Button has been pressed %u times\n", buttonEnd_Y.numberKeyPresses);
     // reached ending point
     Serial.println("Motor Y reached ending point\n");
     //some_buttonEnd_Y();
+    delay(500); //Delay debounce
     buttonEnd_Y.pressed = false;
   }
 
   //call the webserver
   server.handleClient();
 }
-
-
