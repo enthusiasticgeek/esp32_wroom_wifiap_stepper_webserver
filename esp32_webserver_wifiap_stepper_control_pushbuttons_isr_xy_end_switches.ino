@@ -21,6 +21,8 @@ const IPAddress customIP(192, 168, 4, 1);
 #define DEFAULT_STEPS 5
 #define DEFAULT_MICROSECS 50
 
+#define DEBOUNCE_DELAY 500
+
 //Initialize variables
 #define BAUD_RATE 115200
 
@@ -263,13 +265,13 @@ void handleRoot() {
               ".center {display: flex; justify-content: center; align-items: center; height: 100vh;}"
               "</style></head><body><h1>Arduino Simple Stepper Controller Web Server</h1><hr>"
               "<form action='/button1'><table>"
-              "<tr><th><h4 style='font-size:25px;color: black'>The number of steps_X to traverse:</h4></th><td><input type='text' name='textbox1' style='font-size:25px;height:50px;width:200px' ></td>"
+              "<tr><th><h4 style='font-size:25px;color: black'>The number of steps X-axis to traverse:</h4></th><td><input type='text' name='textbox1' style='font-size:25px;height:50px;width:200px' ></td>"
               "<td><input type='submit' name='button1' value='STEPS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
               "<tr><td><h4 style='font-size:25px;color: green'> Steps [current value]: "
                 + String(steps_X) + "</h4></td></tr>"
                                     "</table></form><br>"
                                     "<form action='/button2'><table>"
-                                    "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs_X):</h4></th><td><input type='text' name='textbox2' style='font-size:25px;height:50px;width:200px' ></td>"
+                                    "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs X-axis):</h4></th><td><input type='text' name='textbox2' style='font-size:25px;height:50px;width:200px' ></td>"
                                     "<td><input type='submit' name='button2' value='MICROSECS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
                                     "<tr><td><h4 style='font-size:25px;color: green'> Microsecs [current value]: "
                 + String(microsecs_X) + "</h4></td></tr>"
@@ -281,13 +283,13 @@ void handleRoot() {
                                         "<tr><td><input type='submit' name='button4' value='CounterClockwise (X)' style='font-size:25px;height:200px;width:300px' ></td></tr>"
                                         "</table></form><br><hr>"
                                         "<form action='/button5'><table>"
-                                        "<tr><th><h4 style='font-size:25px;color: black'>The number of steps_Y to traverse:</h4></th><td><input type='text' name='textbox3' style='font-size:25px;height:50px;width:200px' ></td>"
+                                        "<tr><th><h4 style='font-size:25px;color: black'>The number of steps Y-axis to traverse:</h4></th><td><input type='text' name='textbox3' style='font-size:25px;height:50px;width:200px' ></td>"
                                         "<td><input type='submit' name='button5' value='STEPS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
                                         "<tr><td><h4 style='font-size:25px;color: green'> Steps [current value]: "
                 + String(steps_Y) + "</h4></td></tr>"
                                     "</table></form><br>"
                                     "<form action='/button6'><table>"
-                                    "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs_Y):</h4></th><td><input type='text' name='textbox4' style='font-size:25px;height:50px;width:200px' ></td>"
+                                    "<tr><th><h4 style='font-size:25px;color: black'>Delay between pulses (microsecs Y-axis):</h4></th><td><input type='text' name='textbox4' style='font-size:25px;height:50px;width:200px' ></td>"
                                     "<td><input type='submit' name='button6' value='MICROSECS' style='font-size:25px;height:50px;width:200px' ></td></tr>"
                                     "<tr><td><h4 style='font-size:25px;color: green'> Microsecs [current value]: "
                 + String(microsecs_Y) + "</h4></td></tr>"
@@ -1166,7 +1168,7 @@ void loop() {
     // move CW:
     Serial.println("Motor will turn clockwise\n");
     moveCW_X();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonCW_X.pressed = false;
   //} else if (buttonCCW_X.pressed) {
   } else if (digitalRead(buttonCCW_X.PIN)==LOW) {
@@ -1174,7 +1176,7 @@ void loop() {
     // move CCW:
     Serial.println("Motor will turn counterclockwise\n");
     moveCCW_X();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonCCW_X.pressed = false;
   }
   if ((buttonCW_Y.pressed) && (buttonCCW_Y.pressed)) {
@@ -1187,7 +1189,7 @@ void loop() {
     // move CW:
     Serial.println("Motor will turn clockwise\n");
     moveCW_Y();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonCW_Y.pressed = false;
   //} else if (buttonCCW_Y.pressed) {
   } else if (digitalRead(buttonCCW_Y.PIN)==LOW) {
@@ -1195,7 +1197,7 @@ void loop() {
     // move CCW:
     Serial.println("Motor will turn counterclockwise\n");
     moveCCW_Y();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonCCW_Y.pressed = false;
   }
 
@@ -1209,7 +1211,7 @@ void loop() {
     // reached starting point
     Serial.println("Motor X reached starting point\n");
     //some_buttonBegin_X();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonBegin_X.pressed = false;
   //} else if (buttonEnd_X.pressed) {
   } else if (digitalRead(buttonEnd_X.PIN)==LOW) {
@@ -1217,7 +1219,7 @@ void loop() {
     // reached ending point
     Serial.println("Motor X reached ending point\n");
     //some_buttonEnd_X();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonEnd_X.pressed = false;
   }
 
@@ -1231,7 +1233,7 @@ void loop() {
     // reached starting point
     Serial.println("Motor Y reached starting point\n");
     //some_buttonBegin_Y();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonBegin_Y.pressed = false;
   //} else if (buttonEnd_Y.pressed) {
   } else if (digitalRead(buttonEnd_Y.PIN)==LOW) {
@@ -1239,7 +1241,7 @@ void loop() {
     // reached ending point
     Serial.println("Motor Y reached ending point\n");
     //some_buttonEnd_Y();
-    delay(500); //Delay debounce
+    delay(DEBOUNCE_DELAY); //Delay debounce
     buttonEnd_Y.pressed = false;
   }
 
