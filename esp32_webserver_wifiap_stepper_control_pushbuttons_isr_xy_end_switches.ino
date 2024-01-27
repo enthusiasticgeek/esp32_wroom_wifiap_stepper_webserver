@@ -184,6 +184,10 @@ void resetCounters() {
   Serial.println("All the counters have been reset to 0");
 }
 
+void gotoGPIO() {
+  Serial.println("Navigate webpage to GPIO");
+}
+
 
 WebServer server(80);
 
@@ -350,6 +354,7 @@ void handleRoot() {
 
 
 void handleGPIO() {
+  gotoGPIO();
   String htmlContent = 
               "<!DOCTYPE html>"
               "<html>"
@@ -1047,13 +1052,59 @@ void setup() {
 
 
 
-// the loop function runs over and over again forever
-void loop() {
+void processCommand(const String& command) {
+  if ((command == "cw_x\r") || (command == "CW_X\r")) {
+    Serial.println("Motor X will turn clockwise\n");
+    for (int i = 0; i < steps_X; i++) {
+      moveCW_X();
+    }
+    Serial.println("Motor X finished turning clockwise\n");
+  } else if ((command == "ccw_x\r") || (command == "CCW_X\r")) {
+    Serial.println("Motor X will turn counterclockwise\n");
+    for (int i = 0; i < steps_X; i++) {
+      moveCCW_X();
+    }
+    Serial.println("Motor X finished turning counterclockwise\n");
+  } else if ((command == "cw_y\r") || (command == "CW_Y\r")) {
+    Serial.println("Motor Y will turn clockwise\n");
+    for (int i = 0; i < steps_Y; i++) {
+      moveCW_Y();
+    }
+    Serial.println("Motor Y finished turning clockwise\n");
+  } else if ((command == "ccw_y\r") || (command == "CCW_Y\r")) {
+    Serial.println("Motor Y will turn counterclockwise\n");
+    for (int i = 0; i < steps_Y; i++) {
+      moveCCW_Y();
+    }
+    Serial.println("Motor Y finished turning counterclockwise\n");
+  } else if ((command == "en_x=1\r") || (command == "EN_X=1\r")) {
+    Serial.println("Motor X enabled\n");
+    digitalWrite(ENA_X, HIGH);
+  } else if ((command == "en_x=0\r") || (command == "EN_X=0\r")) {
+    Serial.println("Motor X disabled\n");
+    digitalWrite(ENA_X, LOW);
+  } else if ((command == "en_y=1\r") || (command == "EN_Y=1\r")) {
+    Serial.println("Motor Y enabled\n");
+    digitalWrite(ENA_Y, HIGH);
+  } else if ((command == "en_y=0\r") || (command == "EN_Y=0\r")) {
+    Serial.println("Motor Y disabled\n");
+    digitalWrite(ENA_Y, LOW);
+  } else if (command.indexOf("steps_X:") >= 0) {
+    Serial.println("steps_X\n");
+    // Additional processing for steps_X if needed
+  } else if (command.indexOf("steps_Y:") >= 0) {
+    Serial.println("steps_Y\n");
+    // Additional processing for steps_Y if needed
+  } else {
+    // Handle any other commands or cases here
+  }
+}
+
+void processSerialInput() {
   while (Serial.available() > 0) {
-    char recieved = Serial.read();
-    inData += recieved;
-    // Process message when return character is recieved
-    if (recieved == '\r') {
+    char received = Serial.read();
+    inData += received;
+    if (received == '\r') {
       Serial.println("=== Type 'help' for detailed instructions! ===");
       Serial.print("\nArduino Received: ");
       Serial.print(inData);
@@ -1062,189 +1113,142 @@ void loop() {
       MatchState ms;
       ms.Target((char*)inData.c_str());
       char result = ms.Match("(%a+)=(%d+)", 0);
+
       if (result == REGEXP_MATCHED) {
-        // matching offsets in ms.capture
-        char buf[100];  // large enough to hold expected string
+        char buf[100];
         Serial.print("Captures: ");
         Serial.println(ms.level);
         for (int j = 0; j < ms.level; j++) {
-          //Serial.print ("Capture number: ");
-          //Serial.println (j, DEC);
-          //Serial.print ("Text: '");
-          //Serial.print (ms.GetCapture (buf, j));
-          //Serial.println ("'");
-          //first is a string based on Regex capture group
           if ((j == 0) && (ms.level == 2)) {
             String captured = ms.GetCapture(buf, 0);
             String value = ms.GetCapture(buf, 1);
-            if (captured == "steps_X") {
-              steps_X = captured.toInt();
-              //TODO(Pratik) - check the bounds (need to be valid)
-              Serial.println("steps_X are now " + value);
-            } else if (captured == "microsecs_X") {
-              microsecs_X = captured.toInt();
-              //TODO(Pratik) - check the bounds (need to be valid)
-              Serial.println("microsecs_X are now " + value);
-            } else if (captured == "steps_Y") {
-              steps_Y = captured.toInt();
-              //TODO(Pratik) - check the bounds (need to be valid)
-              Serial.println("steps_Y are now " + value);
-            } else if (captured == "microsecs_Y") {
-              microsecs_Y = captured.toInt();
-              //TODO(Pratik) - check the bounds (need to be valid)
-              Serial.println("microsecs_Y are now " + value);
-            }
+            // Process captured data if needed
           }
         }
       } else if (result == REGEXP_NOMATCH) {
-        // no match
-        //Serial.println("no match");
+        // Handle no match case if needed
       }
-      //TODO(Pratik) - Add more instructions as necessary
-      if ((inData == "cw_x\r") || (inData == "CW_X\r")) {
-        Serial.println("Motor X will turn clockwise\n");
-        for (int i = 0; i < steps_X; i++) {
-          moveCW_X();
-        }
-        Serial.println("Motor X finished turning clockwise\n");
-      } else if ((inData == "ccw_x\r") || (inData == "CCW_X\r")) {
-        Serial.println("Motor X will turn counterclockwise\n");
-        for (int i = 0; i < steps_X; i++) {
-          moveCCW_X();
-        }
-        Serial.println("Motor X finished turning counterclockwise\n");
-      } else if ((inData == "cw_y\r") || (inData == "CW_Y\r")) {
-        Serial.println("Motor Y will turn clockwise\n");
-        for (int i = 0; i < steps_Y; i++) {
-          moveCW_Y();
-        }
-        Serial.println("Motor Y finished turning clockwise\n");
-      } else if ((inData == "ccw_y\r") || (inData == "CCW_Y\r")) {
-        Serial.println("Motor Y will turn counterclockwise\n");
-        for (int i = 0; i < steps_Y; i++) {
-          moveCCW_Y();
-        }
-        Serial.println("Motor Y finished turning counterclockwise\n");
-      } else if ((inData == "en_x=1\r") || (inData == "EN_X=1\r")) {
-        Serial.println("Motor X enabled\n");
-        digitalWrite(ENA_X, HIGH);
-      } else if ((inData == "en_x=0\r") || (inData == "EN_X=0\r")) {
-        Serial.println("Motor X disabled\n");
-        digitalWrite(ENA_X, LOW);
-      } else if ((inData.indexOf("steps_X:") >= 0)) {
-        //int ind1 = inData.indexOf('steps_X');  //finds location of first ,
-        //int speed = inData.substring(0, ind1+6);
-        Serial.println("steps_X\n");
-      } else if ((inData == "en_y=1\r") || (inData == "EN_Y=1\r")) {
-        Serial.println("Motor Y enabled\n");
-        digitalWrite(ENA_Y, HIGH);
-      } else if ((inData == "en_y=0\r") || (inData == "EN_Y=0\r")) {
-        Serial.println("Motor Y disabled\n");
-        digitalWrite(ENA_Y, LOW);
-      } else if ((inData.indexOf("steps_Y:") >= 0)) {
-        //int ind1 = inData.indexOf('steps_Y');  //finds location of first ,
-        //int speed = inData.substring(0, ind1+6);
-        Serial.println("steps_Y\n");
-      } else if (inData == "help\r") {  // DON'T forget to add "\n" at the end of the string.
-        Serial.println("\nValid commands are: \r\n 'CW_X' or 'CW_Y' (clockwise),\r\n 'CCW_X' or 'CCW_Y' (counterclockwise),\r\n 'EN_X=1' or 'EN_Y=1' (enable),\r\n 'EN_X=0' or 'EN_Y=0' (disable),\r\n 'steps_X=<value>' or 'steps_Y=<value>', \r\n 'microsecs_X=<value>' or 'microsecs_Y=<value>'.");
-      } else {
-        //Any other remaining case?
-      }
-      inData = "";  // Clear recieved buffer
+
+      processCommand(inData);
+      inData = "";  // Clear received buffer
     }
   }
+}
 
-  // Check if manually someone presses push buttons.
-  // Read the state of the pushbutton value.
-  // Added a guard so that both clockwise and counterclockwise push buttons are not pressed simultaneously!
-  if ((buttonCW_X.pressed) && (buttonCCW_X.pressed)) {
-    Serial.printf("CCW and CW push buttons should not be pressed simultaneously. Ignoring the commands!\n");
-    buttonCW_X.pressed = false;
-    buttonCCW_X.pressed = false;
+void processMotorPushButtonsInput(){
+    // Read the state of the pushbutton values.
+    bool cwPressed_X = digitalRead(buttonCW_X.PIN) == LOW;
+    bool ccwPressed_X = digitalRead(buttonCCW_X.PIN) == LOW;
 
-  //} else if (buttonCW_X.pressed) {
-  } else if (digitalRead(buttonCW_X.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonCW_X.numberKeyPresses);
-    // move CW:
-    Serial.println("Motor will turn clockwise\n");
-    moveCW_X();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonCW_X.pressed = false;
-  //} else if (buttonCCW_X.pressed) {
-  } else if (digitalRead(buttonCCW_X.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonCCW_X.numberKeyPresses);
-    // move CCW:
-    Serial.println("Motor will turn counterclockwise\n");
-    moveCCW_X();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonCCW_X.pressed = false;
-  }
-  if ((buttonCW_Y.pressed) && (buttonCCW_Y.pressed)) {
-    Serial.printf("CCW and CW push buttons should not be pressed simultaneously. Ignoring the commands!\n");
-    buttonCW_Y.pressed = false;
-    buttonCCW_Y.pressed = false;
-  //} else if (buttonCW_Y.pressed) {
-  } else if (digitalRead(buttonCW_Y.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonCW_Y.numberKeyPresses);
-    // move CW:
-    Serial.println("Motor will turn clockwise\n");
-    moveCW_Y();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonCW_Y.pressed = false;
-  //} else if (buttonCCW_Y.pressed) {
-  } else if (digitalRead(buttonCCW_Y.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonCCW_Y.numberKeyPresses);
-    // move CCW:
-    Serial.println("Motor will turn counterclockwise\n");
-    moveCCW_Y();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonCCW_Y.pressed = false;
-  }
+    // Check if both CW and CCW buttons are pressed simultaneously.
+    if (cwPressed_X && ccwPressed_X) {
+        Serial.println("CCW and CW push buttons should not be pressed simultaneously. Ignoring the commands!");
+        buttonCW_X.pressed = false;
+        buttonCCW_X.pressed = false;
+    } else if (cwPressed_X) {
+        Serial.printf("Button CW has been pressed %u times\n", buttonCW_X.numberKeyPresses);
+        Serial.println("Motor will turn clockwise");
+        moveCW_X();
+        delay(DEBOUNCE_DELAY); // Delay debounce
+        buttonCW_X.pressed = false;
+    } else if (ccwPressed_X) {
+        Serial.printf("Button CCW has been pressed %u times\n", buttonCCW_X.numberKeyPresses);
+        Serial.println("Motor will turn counterclockwise");
+        moveCCW_X();
+        delay(DEBOUNCE_DELAY); // Delay debounce
+        buttonCCW_X.pressed = false;
+    }
 
-  if ((buttonBegin_X.pressed) && (buttonEnd_X.pressed)) {
-    Serial.printf("Begin and End push buttons should not be pressed simultaneously. Ignoring the commands!\n");
-    buttonBegin_X.pressed = false;
-    buttonEnd_X.pressed = false;
-  //} else if (buttonBegin_X.pressed) {
-  } else if (digitalRead(buttonBegin_X.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonBegin_X.numberKeyPresses);
-    // reached starting point
-    Serial.println("Motor X reached starting point\n");
-    //some_buttonBegin_X();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonBegin_X.pressed = false;
-  //} else if (buttonEnd_X.pressed) {
-  } else if (digitalRead(buttonEnd_X.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonEnd_X.numberKeyPresses);
-    // reached ending point
-    Serial.println("Motor X reached ending point\n");
-    //some_buttonEnd_X();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonEnd_X.pressed = false;
-  }
+    // Read the state of the pushbutton values.
+    bool cwPressed_Y = digitalRead(buttonCW_Y.PIN) == LOW;
+    bool ccwPressed_Y = digitalRead(buttonCCW_Y.PIN) == LOW;
 
-  if ((buttonBegin_Y.pressed) && (buttonEnd_Y.pressed)) {
-    Serial.printf("Begin and End push buttons should not be pressed simultaneously. Ignoring the commands!\n");
-    buttonBegin_Y.pressed = false;
-    buttonEnd_Y.pressed = false;
-  //} else if (buttonBegin_Y.pressed) {
-  } else if (digitalRead(buttonBegin_Y.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonBegin_Y.numberKeyPresses);
-    // reached starting point
-    Serial.println("Motor Y reached starting point\n");
-    //some_buttonBegin_Y();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonBegin_Y.pressed = false;
-  //} else if (buttonEnd_Y.pressed) {
-  } else if (digitalRead(buttonEnd_Y.PIN)==LOW) {
-    Serial.printf("Button has been pressed %u times\n", buttonEnd_Y.numberKeyPresses);
-    // reached ending point
-    Serial.println("Motor Y reached ending point\n");
-    //some_buttonEnd_Y();
-    delay(DEBOUNCE_DELAY); //Delay debounce
-    buttonEnd_Y.pressed = false;
-  }
+    // Check if both CW and CCW buttons are pressed simultaneously.
+    if (cwPressed_Y && ccwPressed_Y) {
+        Serial.println("CCW and CW push buttons should not be pressed simultaneously. Ignoring the commands!");
+        buttonCW_Y.pressed = false;
+        buttonCCW_Y.pressed = false;
+    } else if (cwPressed_Y) {
+        Serial.printf("Button CW has been pressed %u times\n", buttonCW_Y.numberKeyPresses);
+        Serial.println("Motor will turn clockwise");
+        moveCW_Y();
+        delay(DEBOUNCE_DELAY); // Delay debounce
+        buttonCW_Y.pressed = false;
+    } else if (ccwPressed_Y) {
+        Serial.printf("Button CCW has been pressed %u times\n", buttonCCW_Y.numberKeyPresses);
+        Serial.println("Motor will turn counterclockwise");
+        moveCCW_Y();
+        delay(DEBOUNCE_DELAY); // Delay debounce
+        buttonCCW_Y.pressed = false;
+    }
+}
+
+
+void processEndPushButtonsInput(){
+    bool beginPressed_X = digitalRead(buttonBegin_X.PIN) == LOW;
+    bool endPressed_X = digitalRead(buttonEnd_X.PIN) == LOW;
+
+    if (beginPressed_X && endPressed_X) {
+      Serial.println("Begin and End push buttons for X should not be pressed simultaneously. Ignoring the commands!");
+      buttonBegin_X.pressed = false;
+      buttonEnd_X.pressed = false;
+    } else if (beginPressed_X) {
+      buttonEnd_X.pressed = false;
+      Serial.printf("Button Begin for X has been pressed %u times\n", buttonBegin_X.numberKeyPresses);
+      Serial.println("Motor X reached starting point");
+      //some_buttonBegin_X();
+      delay(DEBOUNCE_DELAY); // Delay debounce
+    } else if (endPressed_X) {
+      buttonBegin_X.pressed = false;
+      Serial.printf("Button End for X has been pressed %u times\n", buttonEnd_X.numberKeyPresses);
+      Serial.println("Motor X reached ending point");
+      //some_buttonEnd_X();
+      delay(DEBOUNCE_DELAY); // Delay debounce
+    } else {
+      buttonBegin_X.pressed = false;
+      buttonEnd_X.pressed = false;
+    }
+
+    bool beginPressed_Y = digitalRead(buttonBegin_Y.PIN) == LOW;
+    bool endPressed_Y = digitalRead(buttonEnd_Y.PIN) == LOW;
+
+    if (beginPressed_Y && endPressed_Y) {
+      Serial.println("Begin and End push buttons for Y should not be pressed simultaneously. Ignoring the commands!");
+      buttonBegin_Y.pressed = false;
+      buttonEnd_Y.pressed = false;
+    } else if (beginPressed_Y) {
+      buttonEnd_Y.pressed = false;
+      Serial.printf("Button Begin for Y has been pressed %u times\n", buttonBegin_Y.numberKeyPresses);
+      Serial.println("Motor Y reached starting point");
+      //some_buttonBegin_Y();
+      delay(DEBOUNCE_DELAY); // Delay debounce
+    } else if (endPressed_Y) {
+      buttonBegin_Y.pressed = false;
+      Serial.printf("Button End for Y has been pressed %u times\n", buttonEnd_Y.numberKeyPresses);
+      Serial.println("Motor Y reached ending point");
+      //some_buttonEnd_Y();
+      delay(DEBOUNCE_DELAY); // Delay debounce
+    } else {
+      buttonBegin_Y.pressed = false;
+      buttonEnd_Y.pressed = false;
+    }
+}
+
+
+
+// the loop function runs over and over again forever
+void loop() {
+
+  //Any serial input to control Stepper
+  processSerialInput();
+
+  //Any button input to control Stepper
+  processMotorPushButtonsInput();
+
+  //Any end buttons to stop stepper
+  processEndPushButtonsInput();
 
   //call the webserver
   server.handleClient();
+  
 }
