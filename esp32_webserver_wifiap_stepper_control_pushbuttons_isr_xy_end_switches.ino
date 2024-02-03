@@ -193,7 +193,11 @@ WebServer server(80);
 
 //Clockwise
 void moveCCW_X() {
+  /*
   if ((buttonBegin_X.pressed == true) || (buttonEnd_X.pressed == true)){
+    return;
+  }*/
+  if (buttonBegin_X.pressed == true){
     return;
   }
   digitalWrite(DIR_X, LOW);
@@ -206,7 +210,12 @@ void moveCCW_X() {
 
 //Counter Clockwise
 void moveCW_X() {
+  /*
   if ((buttonBegin_X.pressed == true) || (buttonEnd_X.pressed == true)){
+    return;
+  }
+  */
+  if (buttonEnd_X.pressed == true){
     return;
   }
   digitalWrite(DIR_X, HIGH);
@@ -219,7 +228,10 @@ void moveCW_X() {
 
 // Counter Clockwise for Y-axis
 void moveCW_Y() {
-  if ((buttonBegin_Y.pressed == true) || (buttonEnd_Y.pressed == true)){
+  /*if ((buttonBegin_Y.pressed == true) || (buttonEnd_Y.pressed == true)){
+    return;
+  }*/
+  if (buttonBegin_Y.pressed == true){
     return;
   }
   digitalWrite(DIR_Y, HIGH);
@@ -232,7 +244,10 @@ void moveCW_Y() {
 
 // Clockwise for Y-axis
 void moveCCW_Y() {
-  if ((buttonBegin_Y.pressed == true) || (buttonEnd_Y.pressed == true)){
+  /*if ((buttonBegin_Y.pressed == true) || (buttonEnd_Y.pressed == true)){
+    return;
+  }*/
+  if (buttonEnd_Y.pressed == true){
     return;
   }
   digitalWrite(DIR_Y, LOW);
