@@ -78,6 +78,11 @@ uint32_t steps_Y = DEFAULT_STEPS;
 // variables will change:
 //int buttonStateCCW_Y = 0;  // variable for reading the pushbutton status
 
+//track current movements
+bool is_StepperX_moving = false;
+bool is_StepperY_moving = false;
+
+
 // Buffer to store incoming commands from serial port
 String inData;
 
@@ -94,12 +99,18 @@ Button buttonCW_Y = { buttonPinCW_Y, 0, false };    //clockwise
 Button buttonCCW_Y = { buttonPinCCW_Y, 0, false };  //counterclockwise
 
 void IRAM_ATTR buttonISRCW_X() {
+  if(is_StepperX_moving == true){
+    return;
+  }
   buttonCW_X.numberKeyPresses++;
   buttonCW_X.pressed = true;
   //Serial.println("Pressed CW X!");
 }
 
 void IRAM_ATTR buttonISRCCW_X() {
+  if(is_StepperX_moving == true){
+    return;
+  }
   buttonCCW_X.numberKeyPresses++;
   buttonCCW_X.pressed = true;
   //Serial.println("Pressed CCW X!");
@@ -107,12 +118,18 @@ void IRAM_ATTR buttonISRCCW_X() {
 
 
 void IRAM_ATTR buttonISRCW_Y() {
+  if(is_StepperY_moving == true){
+    return;
+  }
   buttonCW_Y.numberKeyPresses++;
   buttonCW_Y.pressed = true;
   //Serial.println("Pressed CW Y!");
 }
 
 void IRAM_ATTR buttonISRCCW_Y() {
+  if(is_StepperY_moving == true){
+    return;
+  }
   buttonCCW_Y.numberKeyPresses++;
   buttonCCW_Y.pressed = true;
   //Serial.println("Pressed CCW Y!");
@@ -197,7 +214,7 @@ void moveCCW_X() {
   if ((buttonBegin_X.pressed == true) || (buttonEnd_X.pressed == true)){
     return;
   }*/
-  if (buttonBegin_X.pressed == true){
+  if ((buttonBegin_X.pressed == true)){
     return;
   }
   digitalWrite(DIR_X, LOW);
@@ -215,7 +232,7 @@ void moveCW_X() {
     return;
   }
   */
-  if (buttonEnd_X.pressed == true){
+  if ((buttonEnd_X.pressed == true)){
     return;
   }
   digitalWrite(DIR_X, HIGH);
@@ -231,7 +248,7 @@ void moveCW_Y() {
   /*if ((buttonBegin_Y.pressed == true) || (buttonEnd_Y.pressed == true)){
     return;
   }*/
-  if (buttonBegin_Y.pressed == true){
+  if ((buttonBegin_Y.pressed == true)){
     return;
   }
   digitalWrite(DIR_Y, HIGH);
@@ -247,7 +264,7 @@ void moveCCW_Y() {
   /*if ((buttonBegin_Y.pressed == true) || (buttonEnd_Y.pressed == true)){
     return;
   }*/
-  if (buttonEnd_Y.pressed == true){
+  if ((buttonEnd_Y.pressed == true)){
     return;
   }
   digitalWrite(DIR_Y, LOW);
@@ -1163,13 +1180,21 @@ void processMotorPushButtonsInput(){
     } else if (cwPressed_X) {
         Serial.printf("Button CW has been pressed %u times\n", buttonCW_X.numberKeyPresses);
         Serial.println("Motor will turn clockwise");
-        moveCW_X();
+        is_StepperX_moving = true;
+        for (int i = 0; i < steps_X; i++) {
+          moveCW_X();
+        }
+        is_StepperX_moving = false;
         delay(DEBOUNCE_DELAY); // Delay debounce
         buttonCW_X.pressed = false;
     } else if (ccwPressed_X) {
         Serial.printf("Button CCW has been pressed %u times\n", buttonCCW_X.numberKeyPresses);
         Serial.println("Motor will turn counterclockwise");
-        moveCCW_X();
+        is_StepperX_moving = true;
+        for (int i = 0; i < steps_X; i++) {
+          moveCCW_X();
+        }
+        is_StepperX_moving = false;
         delay(DEBOUNCE_DELAY); // Delay debounce
         buttonCCW_X.pressed = false;
     }
@@ -1186,13 +1211,21 @@ void processMotorPushButtonsInput(){
     } else if (cwPressed_Y) {
         Serial.printf("Button CW has been pressed %u times\n", buttonCW_Y.numberKeyPresses);
         Serial.println("Motor will turn clockwise");
-        moveCW_Y();
+        is_StepperY_moving = true;
+        for (int i = 0; i < steps_Y; i++) {
+          moveCW_Y();
+        }
+        is_StepperY_moving = false;
         delay(DEBOUNCE_DELAY); // Delay debounce
         buttonCW_Y.pressed = false;
     } else if (ccwPressed_Y) {
         Serial.printf("Button CCW has been pressed %u times\n", buttonCCW_Y.numberKeyPresses);
         Serial.println("Motor will turn counterclockwise");
-        moveCCW_Y();
+        is_StepperY_moving = true;
+        for (int i = 0; i < steps_Y; i++) {
+          moveCCW_Y();
+        }
+        is_StepperY_moving = false;
         delay(DEBOUNCE_DELAY); // Delay debounce
         buttonCCW_Y.pressed = false;
     }
