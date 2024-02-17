@@ -830,9 +830,9 @@ void webbuttonCW_X() {
   for (int i = 0; i < steps_X; i++) {
     moveCW_X();
     buttonCW_X.numberKeyPresses++;
-    Serial.println(String(i));
+    //Serial.println(String(i));
   }
-  Serial.println("[Motor X] Push button CW is pressed and CW move is complete.");
+  //Serial.println("[Motor X] Push button CW is pressed and CW move is complete.");
   /*
   if (pushButtonPressedCW) {
     //server.send(200, "text/plain", "Push button is pressed");
@@ -850,9 +850,9 @@ void webbuttonCCW_X() {
   for (int i = 0; i < steps_X; i++) {
     moveCCW_X();
     buttonCCW_X.numberKeyPresses++;
-    Serial.println(String(i));
+    //Serial.println(String(i));
   }
-  Serial.println("[Motor X] Push button CCW is pressed and CCW move is complete.");
+  //Serial.println("[Motor X] Push button CCW is pressed and CCW move is complete.");
   /*
   if (pushButtonPressedCW) {
     //server.send(200, "text/plain", "Push button is pressed");
@@ -871,9 +871,9 @@ void webbuttonCW_Y() {
   for (int i = 0; i < steps_Y; i++) {
     moveCW_Y();
     buttonCW_Y.numberKeyPresses++;
-    Serial.println(String(i));
+    //Serial.println(String(i));
   }
-  Serial.println("[Motor Y] Push button CW is pressed and CW move is complete.");
+  //Serial.println("[Motor Y] Push button CW is pressed and CW move is complete.");
   /*
   if (pushButtonPressedCW) {
     //server.send(200, "text/plain", "Push button is pressed");
@@ -891,9 +891,9 @@ void webbuttonCCW_Y() {
   for (int i = 0; i < steps_Y; i++) {
     moveCCW_Y();
     buttonCCW_Y.numberKeyPresses++;
-    Serial.println(String(i));
+    //Serial.println(String(i));
   }
-  Serial.println("[Motor Y] Push button CCW is pressed and CCW move is complete.");
+  //Serial.println("[Motor Y] Push button CCW is pressed and CCW move is complete.");
   /*
   if (pushButtonPressedCW) {
     //server.send(200, "text/plain", "Push button is pressed");
