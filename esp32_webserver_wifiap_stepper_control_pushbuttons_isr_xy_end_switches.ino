@@ -1036,11 +1036,10 @@ void setup() {
 
   // Start WiFi in Access Point mode
   WiFi.mode(WIFI_AP);
-  WiFi.softAP(ssid, password);
-
   // Set custom IP address for the AP mode
   WiFi.softAPConfig(customIP, IPAddress(0, 0, 0, 0), IPAddress(255, 255, 255, 0));
-
+  // Set software AP mode
+  WiFi.softAP(ssid, password);
   Serial.println("WiFi AP mode started");
   Serial.println(WiFi.softAPIP());
 
